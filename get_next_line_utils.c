@@ -6,9 +6,54 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/12 15:06:28 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 13:13:46 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
+
+t_lst_line	*ft_lstnew(void *content)
+{
+	t_lst_line	*lst;
+
+	lst = (t_lst_line *)malloc(sizeof(t_lst_line));
+	if (!lst)
+		return (NULL);
+	lst -> content = content;
+	lst -> next = NULL;
+	return (lst);
+}
+
+t_lst_line	*ft_lstlast(t_lst_line *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst -> next)
+		lst = lst -> next;
+	return (lst);
+}
+
+void	ft_lstadd_back(t_lst_line **lst, t_lst_line *new)
+{
+	t_lst_line	*last;
+
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		last = ft_lstlast(*lst);
+		last -> next = new;
+	}
+}
+
+t_lst_line	*ft_lst_rm_item(t_list lst)
+{
+	t_lst_line	*next;
+	free(lst-> content);
+	next = lst-> next;
+	free(lst);
+	return (next);
+}
 
 size_t	ft_strlen(const char *s)
 {
@@ -20,7 +65,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s, size_t len = NULL)
+char	*ft_strldup(const char *s, size_t len)
 {
 	char	*dup;
 
@@ -35,19 +80,21 @@ char	*ft_strdup(const char *s, size_t len = NULL)
 	return (dup);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strlinejoin(char const *s1, char const *s2, size_t len)
 {
 	size_t	l_s1;
 	size_t	l_s2;
 	char	*j;
 
+	if (!s1)
+		strldup("", 0)
 	l_s1 = ft_strlen(s1);
-	l_s2 = ft_strlen(s2);
-	j = (char *)malloc(l_s1 + l_s2 + 1);
+	j = (char *)malloc(l_s1 + len + 1);
 	if (!j)
 		return (NULL);
 	ft_strlcpy(j, s1, l_s1 + 1);
-	ft_strlcpy(&j[l_s1], s2, l_s2 + 1);
+	free(s1);
+	ft_strlcpy(&j[l_s1], s2, len + 1);
 	return (j);
 }
 
@@ -67,3 +114,20 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t siz)
 	return (ft_strlen(src));
 }
 
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	unsigned char	*d;
+	unsigned char	*s;
+
+	if (!src && !dest)
+		return (dest);
+	d = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	if (d < s)
+		while (n--)
+			*d++ = *s++;
+	else
+		while (n--)
+			*(d + n) = *(s + n);
+	return (dest);
+}
