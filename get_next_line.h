@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:05:55 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/14 13:08:50 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:33:32 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ typedef struct s_lst_line
 	struct s_lst_line	*next;
 }	t_lst_line;
 
-t_lst_line  *ft_lstnew(void *content);
-t_lst_line	*ft_lstlast(t_lst_line *lst);
-void		ft_lstadd_back(t_lst_line **lst, t_lst_line *new);
-t_lst_line	*ft_lst_rm_item(t_lst_line lst);
+t_lst_line  *ft_lst_line(void *content);
+t_lst_line	*ft_lstlast_line(t_lst_line *lst);
+void		ft_lstadd_line(t_lst_line **lst, t_lst_line *new);
+t_lst_line	*ft_lst_rm_item(t_lst_line *lst);
 
 char		*get_next_line(int fd);
 size_t  	ft_strlen(const char *s);

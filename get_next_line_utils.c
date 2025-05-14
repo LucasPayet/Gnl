@@ -6,13 +6,13 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/14 13:13:46 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:41:31 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_lst_line	*ft_lstnew(void *content)
+t_lst_line	*ft_lst_line(void *content)
 {
 	t_lst_line	*lst;
 
@@ -24,7 +24,7 @@ t_lst_line	*ft_lstnew(void *content)
 	return (lst);
 }
 
-t_lst_line	*ft_lstlast(t_lst_line *lst)
+t_lst_line	*ft_lstlast_line(t_lst_line *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -33,7 +33,7 @@ t_lst_line	*ft_lstlast(t_lst_line *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_lst_line **lst, t_lst_line *new)
+void	ft_lstadd_line(t_lst_line **lst, t_lst_line *new)
 {
 	t_lst_line	*last;
 
@@ -41,12 +41,12 @@ void	ft_lstadd_back(t_lst_line **lst, t_lst_line *new)
 		*lst = new;
 	else
 	{
-		last = ft_lstlast(*lst);
+		last = ft_lstlast_line(*lst);
 		last -> next = new;
 	}
 }
 
-t_lst_line	*ft_lst_rm_item(t_list lst)
+t_lst_line	*ft_lst_rm_item(t_lst_line *lst)
 {
 	t_lst_line	*next;
 	free(lst-> content);
@@ -80,20 +80,22 @@ char	*ft_strldup(const char *s, size_t len)
 	return (dup);
 }
 
+#include <stdio.h>
 char	*ft_strlinejoin(char const *s1, char const *s2, size_t len)
 {
 	size_t	l_s1;
-	size_t	l_s2;
 	char	*j;
 
+//	printf("f()Join => %s\n", s1);
 	if (!s1)
-		strldup("", 0)
+		s1 = ft_strldup("", 0);
 	l_s1 = ft_strlen(s1);
 	j = (char *)malloc(l_s1 + len + 1);
 	if (!j)
 		return (NULL);
 	ft_strlcpy(j, s1, l_s1 + 1);
-	free(s1);
+	printf("Join => %s\n", j);
+	free((void *)s1);
 	ft_strlcpy(&j[l_s1], s2, len + 1);
 	return (j);
 }
