@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:46 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/15 15:36:22 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 23:09:10 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,42 @@
 #include <unistd.h>
 
 #include <stdio.h>
-static int	load_more(int fd, t_lst_line **list)
-{
-	char	buffer[BUFFER_SIZE];
-	size_t	len;
 
-	len = read(fd, &buffer, BUFFER_SIZE);
-	ft_lstadd_line(list, ft_lst_line(ft_strldup(buffer, len)));
-	return (len);
+static char	*ft_linechr(const char *s)
+{
+	while (*s)
+		if (*s++ == '\n')
+			return ((char *)(s--));
+	return (NULL);
 }
 
-static char	*get_line(int fd, t_lst_line *list_line, char *buffer)
+static char	*get_buffer(int fd, char *big_buffer)
 {
-	char	*line;
-	t_lst_line	*lst;
-	size_t	i;
-	int		end;
+	char	*buf;
+	int		bytes;
 
-	lst = list_line;
-	if (!lst)
-	{
-		end = load_more(fd, &lst);
-		if (end == 0)
-			return (ft_strldup("", 0));
-	}
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
+	bytes = 1;
+	while (!)
+	return (big_buffer);
+}
 
-	line = NULL;
-	i = 0;
-	while (lst-> content[i] != '\n')
-	{
-		if (lst-> content[i] == '\0')
-		{
-			line = ft_strlinejoin(line, lst->content, i);
-			end = load_more(fd, &lst);
-			lst = lst-> next;
-			if (end == 0)
-				break;
-			i = 0;
-		}
-		else
-			i++;
-	}
-	line = ft_strlinejoin(line, lst->content, i + 1);
-	ft_strlcpy(buffer, &lst-> content[i] + 1, 
-			ft_strlen(&lst-> content[i]));
-	ft_rmlist(list_line);
-	return (line);
+static char	*get_line(char *buf)
+{
 }
 
 char	*get_next_line(int fd)
 {
-	static char	left_buff[BUFFER_SIZE];
+	static char	*big_buffer;
 	char		*line;
-	t_lst_line	*list_line;
 
-	if (left_buff[0])
-		list_line = ft_lst_line(ft_strldup(left_buff, ft_strlen(left_buff)));
-	else
-		list_line = NULL;
-	line = get_line(fd, list_line, left_buff);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	big_buffer = get_buffer(fd, big_buffer);
+	if (!big_buffer)
+		return (NULL);
+	line = get_line(big_buffer);
 	return (line);
 }

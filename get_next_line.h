@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:05:55 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/15 15:16:34 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 22:34:58 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 # define GET_NEXT_LINE_H
 # include <stddef.h>
 # include <stdlib.h>
-
-typedef struct s_lst_line
-{
-	char				*content;
-	struct s_lst_line	*next;
-}	t_lst_line;
-
-t_lst_line  *ft_lst_line(void *content);
-t_lst_line	*ft_lstlast_line(t_lst_line *lst);
-void		ft_lstadd_line(t_lst_line **lst, t_lst_line *new);
-t_lst_line	*ft_lst_rm_item(t_lst_line *lst);
-void    ft_rmlist(t_lst_line *lst);
 
 void    ft_bzero(void *s, size_t n);
 char		*get_next_line(int fd);

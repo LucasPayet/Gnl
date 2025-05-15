@@ -6,70 +6,11 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/15 15:27:34 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 22:35:51 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-t_lst_line	*ft_lst_line(void *content)
-{
-	t_lst_line	*lst;
-
-	lst = (t_lst_line *)malloc(sizeof(t_lst_line));
-	if (!lst)
-		return (NULL);
-	lst -> content = content;
-	lst -> next = NULL;
-	return (lst);
-}
-
-t_lst_line	*ft_lstlast_line(t_lst_line *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst -> next)
-		lst = lst -> next;
-	return (lst);
-}
-
-void	ft_lstadd_line(t_lst_line **lst, t_lst_line *new)
-{
-	t_lst_line	*last;
-
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		last = ft_lstlast_line(*lst);
-		last-> next = new;
-	}
-}
-
-t_lst_line	*ft_lst_rm_item(t_lst_line *lst)
-{
-	t_lst_line	*next;
-	free(lst-> content);
-	next = lst-> next;
-	free(lst);
-	return (next);
-}
-
-#include <stdio.h>
-void	ft_rmlist(t_lst_line *lst)
-{
-	t_lst_line	*temp;
-
-	while (lst)
-	{
-		//printf("%s\n", lst-> content);
-		temp = lst-> next;
-		ft_bzero(lst-> content, ft_strlen(lst->content));
-		free(lst-> content);
-		free(lst);
-		lst = temp;
-	}
-}
 
 void	ft_bzero(void *s, size_t n)
 {
