@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:40:52 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/14 17:13:24 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:24:35 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	main(int ac, char *av[])
 		fd = 0;
 	i = ft_atoi(av[2]);
 	str = get_next_line(fd);
-	printf("%s", str);
+	printf("%d: %s", i, str);
 	i--;
 	while (i-- && str)
 	{
-		printf("%s", str);
 		str = get_next_line(fd);
+		printf("%d: %s", i + 1, str);
 	}
 	free(str);
 	if (fd < 2)

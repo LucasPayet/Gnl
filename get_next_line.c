@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:46 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/14 17:15:16 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:36:22 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,30 @@ static int	load_more(int fd, t_lst_line **list)
 	return (len);
 }
 
-static char	*get_line(int fd, t_lst_line *list_line)
+static char	*get_line(int fd, t_lst_line *list_line, char *buffer)
 {
 	char	*line;
+	t_lst_line	*lst;
 	size_t	i;
 	int		end;
 
-	if (!list_line)
-		load_more(fd, &list_line);
-	i = 0;
-	//printf("%s\n", list_line-> content);
-	while (list_line-> content[i] != '\n')
+	lst = list_line;
+	if (!lst)
 	{
-		if (list_line-> content[i] == '\0')
+		end = load_more(fd, &lst);
+		if (end == 0)
+			return (ft_strldup("", 0));
+	}
+
+	line = NULL;
+	i = 0;
+	while (lst-> content[i] != '\n')
+	{
+		if (lst-> content[i] == '\0')
 		{
-			printf("End of content %s\n", line);
-			line = ft_strlinejoin(line, list_line->content, i);
-			end = load_more(fd, &list_line);
-			list_line = ft_lst_rm_item(list_line);
+			line = ft_strlinejoin(line, lst->content, i);
+			end = load_more(fd, &lst);
+			lst = lst-> next;
 			if (end == 0)
 				break;
 			i = 0;
@@ -49,18 +55,23 @@ static char	*get_line(int fd, t_lst_line *list_line)
 		else
 			i++;
 	}
-	printf("check %s\n", line);
-	line = ft_strlinejoin(line, list_line->content, i);
-	printf("Before Move => %s\n\n", list_line-> content);
-	ft_memmove(list_line-> content, &list_line-> content[i], 
-			ft_strlen(&list_line-> content[i]));
-	printf("After Move => %s\n\n", list_line-> content);
-	printf("check2 %s\n", line);
+	line = ft_strlinejoin(line, lst->content, i + 1);
+	ft_strlcpy(buffer, &lst-> content[i] + 1, 
+			ft_strlen(&lst-> content[i]));
+	ft_rmlist(list_line);
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_lst_line	*list_line = NULL;
-	return (get_line(fd, list_line));
+	static char	left_buff[BUFFER_SIZE];
+	char		*line;
+	t_lst_line	*list_line;
+
+	if (left_buff[0])
+		list_line = ft_lst_line(ft_strldup(left_buff, ft_strlen(left_buff)));
+	else
+		list_line = NULL;
+	line = get_line(fd, list_line, left_buff);
+	return (line);
 }

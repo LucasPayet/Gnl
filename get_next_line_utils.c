@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/14 16:41:31 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:27:34 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_lstadd_line(t_lst_line **lst, t_lst_line *new)
 	else
 	{
 		last = ft_lstlast_line(*lst);
-		last -> next = new;
+		last-> next = new;
 	}
 }
 
@@ -53,6 +53,33 @@ t_lst_line	*ft_lst_rm_item(t_lst_line *lst)
 	next = lst-> next;
 	free(lst);
 	return (next);
+}
+
+#include <stdio.h>
+void	ft_rmlist(t_lst_line *lst)
+{
+	t_lst_line	*temp;
+
+	while (lst)
+	{
+		//printf("%s\n", lst-> content);
+		temp = lst-> next;
+		ft_bzero(lst-> content, ft_strlen(lst->content));
+		free(lst-> content);
+		free(lst);
+		lst = temp;
+	}
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*b;
+
+	b = (unsigned char *)s;
+	while (n--)
+	{
+		*b++ = 0;
+	}
 }
 
 size_t	ft_strlen(const char *s)
@@ -86,7 +113,6 @@ char	*ft_strlinejoin(char const *s1, char const *s2, size_t len)
 	size_t	l_s1;
 	char	*j;
 
-//	printf("f()Join => %s\n", s1);
 	if (!s1)
 		s1 = ft_strldup("", 0);
 	l_s1 = ft_strlen(s1);
@@ -94,8 +120,8 @@ char	*ft_strlinejoin(char const *s1, char const *s2, size_t len)
 	if (!j)
 		return (NULL);
 	ft_strlcpy(j, s1, l_s1 + 1);
-	printf("Join => %s\n", j);
-	free((void *)s1);
+//	printf("Join => %s\n", j);
+	free((char *)s1);
 	ft_strlcpy(&j[l_s1], s2, len + 1);
 	return (j);
 }
