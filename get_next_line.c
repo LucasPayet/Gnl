@@ -6,24 +6,22 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:46 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/15 23:09:10 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:55:19 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
 
 #include <stdio.h>
-
-static char	*ft_linechr(const char *s)
+static char	*ft_strchr(const char *s, int c)
 {
 	while (*s)
-		if (*s++ == '\n')
-			return ((char *)(s--));
+		if (*s++ == (char)c)
+			return ((char *)(s - 1));
 	return (NULL);
 }
 
-static char	*get_buffer(int fd, char *big_buffer)
+static char	*get_buffer(int fd, char *stash)
 {
 	char	*buf;
 	int		bytes;
@@ -32,24 +30,60 @@ static char	*get_buffer(int fd, char *big_buffer)
 	if (!buf)
 		return (NULL);
 	bytes = 1;
-	while (!)
-	return (big_buffer);
+	while (!ft_strchr(stash, '\n') && bytes > 0)
+	{
+		bytes = read(fd, buf, BUFFER_SIZE);
+		if (bytes < 0)
+			break ;
+		buf[bytes] = 0;
+		stash = ft_strjoin(stash, buf);
+	}
+	free(buf);
+	return (stash);
 }
 
-static char	*get_line(char *buf)
+static char	*get_line(char *stash)
 {
+	size_t	i;
+	char	*line;
+
+	if (!stash || !stash[0])
+		return (NULL);
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	line = malloc(i + 2);
+	ft_strlcpy(line, stash, i + 1);
+	return (line);
+}
+
+static char	*clean_stash(char *stash)
+{
+	size_t	i;
+	char	*new_stash;
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (!stash[i])
+		return (free(stash), NULL);
+	new_stash = ft_strdup(&stash[i]);
+	free(stash);
+	return (new_stash);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*big_buffer;
+	static char	*stash;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	big_buffer = get_buffer(fd, big_buffer);
-	if (!big_buffer)
+	printf("0\n");
+	stash = get_buffer(fd, stash);
+	if (!stash)
 		return (NULL);
-	line = get_line(big_buffer);
+	line = get_line(stash);
+	printf("%s", line);
+	stash = clean_stash(stash);
 	return (line);
 }
