@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:07:46 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/16 11:55:19 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:41:13 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,17 @@
 #include <stdio.h>
 static char	*ft_strchr(const char *s, int c)
 {
+	printf("1\n");
 	while (*s)
+	{
+		printf("2\n");
 		if (*s++ == (char)c)
-			return ((char *)(s - 1));
+		{
+			printf("3\n");
+			return ((char *)s);
+		}
+	}
+	printf("4\n");
 	return (NULL);
 }
 
@@ -78,7 +86,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	printf("0\n");
 	stash = get_buffer(fd, stash);
 	if (!stash)
 		return (NULL);
