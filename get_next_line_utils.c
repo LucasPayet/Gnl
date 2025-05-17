@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/16 11:27:36 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 23:05:34 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -37,7 +37,7 @@ char	*ft_strdup(const char *s)
 	return (dup);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_linejoin(char *s1, char const *s2)
 {
 	size_t	l_s1;
 	size_t	l_s2;
@@ -49,6 +49,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!j)
 		return (NULL);
 	ft_strlcpy(j, s1, l_s1 + 1);
+	free(s1);
 	ft_strlcpy(&j[l_s1], s2, l_s2 + 1);
 	return (j);
 }

@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:05:55 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/16 11:33:00 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 23:05:47 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 char	*get_next_line(int fd);
 size_t  ft_strlen(const char *s);
 char    *ft_strdup(const char *s);
-char    *ft_strjoin(char const *s1, char const *s2);
+char    *ft_linejoin(char *s1, char const *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t siz);
 
 # endif
