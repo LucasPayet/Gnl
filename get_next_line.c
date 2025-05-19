@@ -6,7 +6,7 @@
 /*   By: lupayet <lupayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:07:18 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/19 13:00:49 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 14:41:49 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_buffer(int fd, char *stash)
 
 	buf = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buf)
-		return (free(buf), NULL);
+		return (NULL);
 	bytes = 1;
 	while (!ft_strchr(stash, '\n') && bytes > 0)
 	{
@@ -60,7 +60,7 @@ static char	*get_line(char *stash)
 		i++;
 	line = malloc(i + 1);
 	if (!line)
-		return (free(line), NULL);
+		return (NULL);
 	ft_strlcpy(line, stash, i + 1);
 	return (line);
 }
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	stash = get_buffer(fd, stash);
 	if (!stash)
-		return (free(stash),NULL);
+		return (NULL);
 	line = get_line(stash);
 	stash = clean_stash(stash);
 	return (line);
