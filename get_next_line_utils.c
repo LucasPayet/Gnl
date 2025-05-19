@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/19 11:16:05 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 12:56:33 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strdup(const char *s)
 	len = ft_strlen(s);
 	dup = (char *)malloc(len + 1);
 	if (!dup)
-		return (NULL);
+		return (free(dup), NULL);
 	dup[len] = 0;
 	while (len--)
 		dup[len] = s[len];
@@ -47,8 +47,9 @@ char	*ft_linejoin(char *s1, char const *s2)
 	l_s2 = ft_strlen(s2);
 	j = (char *)malloc(l_s1 + l_s2 + 1);
 	if (!j)
-		return (free(s1), s1 = NULL, NULL);
-	ft_strlcpy(j, s1, l_s1 + 1);
+		return (free(s1), free(j), s1 = NULL, NULL);
+	if (s1)
+		ft_strlcpy(j, s1, l_s1 + 1);
 	free(s1);
 	s1 = NULL;
 	ft_strlcpy(&j[l_s1], s2, l_s2 + 1);
