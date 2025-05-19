@@ -6,7 +6,7 @@
 /*   By: lupayet <lupayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:07:18 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/18 22:00:01 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:54:32 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_buffer(int fd, char *stash)
 
 	buf = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buf)
-		return (NULL);
+		return (free(buf), NULL);
 	bytes = 1;
 	while (!ft_strchr(stash, '\n') && bytes > 0)
 	{
@@ -39,6 +39,8 @@ static char	*get_buffer(int fd, char *stash)
 			return (free(buf), free(stash), NULL);
 		buf[bytes] = 0;
 		stash = ft_linejoin(stash, buf);
+		if (!stash)
+			return (free(buf), NULL);
 	}
 	free(buf);
 	return (stash);
@@ -58,7 +60,7 @@ static char	*get_line(char *stash)
 		i++;
 	line = malloc(i + 1);
 	if (!line)
-		return (NULL);
+		return (free(line), NULL);
 	ft_strlcpy(line, stash, i + 1);
 	return (line);
 }
@@ -74,16 +76,17 @@ static char	*clean_stash(char *stash)
 		return (free(stash), NULL);
 	if (stash[i] == '\n')
 		i++;
-	new_stash = ft_strdup(&stash[i]);
+	if (stash[i])
+		new_stash = ft_strdup(&stash[i]);
+	else
+		new_stash = NULL;
 	free(stash);
-	if (!new_stash)
-		return (NULL);
 	return (new_stash);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash = NULL;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)

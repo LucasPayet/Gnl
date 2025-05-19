@@ -6,7 +6,7 @@
 /*   By: lupayet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:10:37 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/17 23:05:34 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:16:05 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ char	*ft_linejoin(char *s1, char const *s2)
 	l_s2 = ft_strlen(s2);
 	j = (char *)malloc(l_s1 + l_s2 + 1);
 	if (!j)
-		return (NULL);
+		return (free(s1), s1 = NULL, NULL);
 	ft_strlcpy(j, s1, l_s1 + 1);
 	free(s1);
+	s1 = NULL;
 	ft_strlcpy(&j[l_s1], s2, l_s2 + 1);
 	return (j);
 }
