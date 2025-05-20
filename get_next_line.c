@@ -6,19 +6,18 @@
 /*   By: lupayet <lupayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:07:18 by lupayet           #+#    #+#             */
-/*   Updated: 2025/05/19 15:46:12 by lupayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 12:52:36 by lupayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#include <stdio.h>
 static char	*ft_strchr(const char *s, int c)
 {
 	while (s && *s)
 		if (*s++ == (char)c)
 			return ((char *)(s - 1));
-	if	((char)c == '\0')
+	if ((char)c == '\0')
 		return ((char *)s);
 	return (NULL);
 }
@@ -69,8 +68,8 @@ static char	*clean_stash(char *stash)
 {
 	size_t	i;
 	char	*new_stash;
-	i = 0;
 
+	i = 0;
 	if (!stash)
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
